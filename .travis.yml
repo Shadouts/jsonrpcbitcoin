@@ -7,5 +7,4 @@ before_script:
   - composer self-update
   - composer update
   - composer install
-  
-script: phpunit tests/JsonRpcBitcoinTest.php
+

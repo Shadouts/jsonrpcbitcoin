@@ -1,0 +1,12 @@
+{
+    "name": "drazisil/jsonrpcbitcoin",
+    "description": "JSON-RPC library for bitcoin in PHP",
+    "authors": [
+        {
+            "name": "Joseph W Becher",
+            "email": "jwbecher@drazisil.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

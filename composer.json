@@ -1,6 +1,7 @@
 {
     "name": "jsonrpcbitcoin/jsonrpcbitcoin",
     "description": "JSON-RPC client library for bitcoin in PHP",
+    "keywords": ["JSON-RPC","Bitcoin"],
     "authors": [
         {
             "name": "Joseph W Becher",
@@ -11,7 +12,8 @@
     "require": {
         "lib-curl": "^7.38",
         "ext-curl": "^0.0.0",
-        "ext-json": "^1.3"
+        "ext-json": "^1.3",
+        "php": "^5.4"
     },
     "license": "Apache-2.0"
 }

@@ -8,7 +8,7 @@ class JsonRpcBitcoin {
 	
 	public $result;
 	
-	function __construct($user, $pass) {
+	public function __construct($user, $pass) {
 
 		if (is_string($user)) {
 			$this->rpcUser = $user;
@@ -26,7 +26,7 @@ class JsonRpcBitcoin {
 
 	}
 
-	function __construct1($user, $pass, $host, $port) {
+	public function __construct1($user, $pass, $host, $port) {
 
 		if (is_string($user)) {
 			$this->rpcUser = $user;
@@ -57,7 +57,19 @@ class JsonRpcBitcoin {
 		}	
 	}
 	
-	function send($method, $params = array()){
+	public function getbalance() {
+		return $this->build_json_error(0, 'Not yet supported');
+	}
+
+	public function getinfo() {
+		return $this->rawSend('getinfo');
+	}
+	
+	public function rawSend($method, $params = array()) {
+		return $this->send($method, $params);
+	}
+
+	public function send($method, $params = array()){
 		/* method and params were passed */
 		if (func_num_args() == 2){
 			$postdata = array(
@@ -116,7 +128,7 @@ class JsonRpcBitcoin {
 		return $result;
 	}
 	
-	function build_json_error($code, $message) {
+	private function build_json_error($code, $message) {
 		$result = json_encode(array(
 			'result' => null, 
 			'error' => array(

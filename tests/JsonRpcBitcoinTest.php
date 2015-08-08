@@ -4,7 +4,13 @@ require_once('config.php');
 
 class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 {
-	public function setUp(){ }
+	private $bitcoindConn;
+
+	public function setUp(){
+		global $configRpcUser, $configRpcPass, $configRpcHost, $configRpcPort;
+		
+		$this->bitcoindConn = new JsonRpcBitcoin($configRpcUser, $configRpcPass, $configRpcHost, $configRpcPort);
+	}
 	public function tearDown(){ }
 
 	public function testCanConnectToBitcoindWithDefaultHostAndPort()
@@ -70,7 +76,7 @@ class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 		$this->assertNotNull($result['error']);
 	}
 
-/**
+	/**
 	* @depends testCanAuthenticateToBitcoindWithGoodCred
 	*/
 	public function testCanSendWithGoodParams()
@@ -79,6 +85,67 @@ class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 		
 		$connObj = new JsonRpcBitcoin($configRpcUser, $configRpcPass, $configRpcHost, $configRpcPort);
 		$result = (array)json_decode($connObj->send('getblockhash', array(20)));
+		$this->assertNotNull($result['result']);
+	}
+	
+	/**
+	* @depends testCanAuthenticateToBitcoindWithGoodCred
+	*/
+	public function testIsOnTestnet() {
+		$result = (array)json_decode($this->bitcoindConn->getinfo());
+		$this->assertNotFalse($result['result']->testnet);
+
+	}
+
+	/**
+	* Nondistructive Chain tests
+	*/
+
+	/**
+	* @depends testCanAuthenticateToBitcoindWithGoodCred
+	*/
+	public function testCmdChainGetInfo()
+	{	
+		$result = (array)json_decode($this->bitcoindConn->getinfo());
+		$this->assertNotNull($result['result']);
+	}
+	
+	/**
+	* Distructive Chain tests
+	*/
+
+	/**
+	* @depends testIsOnTestnet
+	*/
+	public function testCmdChainAddNode()
+	{	
+		$result = (array)json_decode($this->bitcoindConn->addnode(array('127.0.0.1')));
+		$this->assertNull($result['error']);
+	}
+
+	/**
+	* Nondistructive Wallet tests
+	*/
+
+	/**
+	* @depends testCanAuthenticateToBitcoindWithGoodCred
+	*/
+	public function testCmdWalletGetBalance()
+	{	
+		$result = (array)json_decode($this->bitcoindConn->getbalance(array('','','')));
+		$this->assertNotNull($result['result']);
+	}
+
+	/**
+	* Distructive Wallet tests
+	*/
+
+	/**
+	* @depends testIsOnTestnet
+	*/
+	public function testCmdWalletAddMultiSigAddress()
+	{	
+		$result = (array)json_decode($this->bitcoindConn->addmultosigaddress(array('', array(''), '')));
 		$this->assertNotNull($result['result']);
 	}
 }

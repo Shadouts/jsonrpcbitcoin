@@ -7,6 +7,15 @@ class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 	public function setUp(){ }
 	public function tearDown(){ }
 
+	public function testCanConnectToBitcoindWithDefaultHostAndPort()
+	{	
+		global $configRpcUser, $configRpcPass;
+		
+		$connObj = new JsonRpcBitcoin($configRpcUser, $configRpcPass);
+		$result = (array)json_decode($connObj->send('getinfo'));
+		$this->assertNull($result['error'], null);
+	}
+
 	public function testCanConnectToBitcoind()
 	{	
 		global $configRpcUser, $configRpcPass, $configRpcHost, $configRpcPort;

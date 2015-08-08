@@ -7,7 +7,7 @@
             "email": "jwbecher@drazisil.com"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
         "lib-curl": "^7.38",
         "ext-curl": "^0.0.0",

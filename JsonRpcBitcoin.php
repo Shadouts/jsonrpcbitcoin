@@ -57,13 +57,28 @@ class JsonRpcBitcoin {
 		}	
 	}
 	
-	function send($method){
-		$postdata = array(
-			'method' => $method,
-			'params' => array(),
-			'id' => 1
-		);
-		
+	function send($method, $params = array()){
+		/* method and params were passed */
+		if (func_num_args() == 2){
+			$postdata = array(
+				'method' => func_get_arg(0),
+				'params' => func_get_arg(1),
+				'id' => 1
+			);
+		}
+		/* only method was passed */
+		else if (func_num_args() == 1){
+			$postdata = array(
+				'method' => func_get_arg(0),
+				'params' => array(),
+				'id' => 1
+			);
+		} 
+		/* either too many of not enough arguments were passed, error */
+		else {
+			return $this->build_json_error(0, 'Invalid number of arguments passed to send');
+		}
+
 		$postdata_json = json_encode($postdata);
 		
 		$bitcoinAuth = base64_encode($this->rpcUser . ':' . $this->rpcPass);
@@ -92,7 +107,7 @@ class JsonRpcBitcoin {
 		if (curl_getinfo($ch, CURLINFO_HTTP_CODE) != 200) {
 			return $this->build_json_error(curl_getinfo($ch, CURLINFO_HTTP_CODE), 'Unable to connect to bitcoind');
 		}
-
+		
 		$this->result = $result;
 
 		//close connection

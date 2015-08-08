@@ -58,5 +58,28 @@ class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 		$this->assertNotNull($result['result']);
 	}
 
+	/**
+	* @depends testCanAuthenticateToBitcoindWithGoodCred
+	*/
+	public function testCanSendWithBadParams()
+	{	
+		global $configRpcUser, $configRpcPass, $configRpcHost, $configRpcPort;
+		
+		$connObj = new JsonRpcBitcoin($configRpcUser, $configRpcPass, $configRpcHost, $configRpcPort);
+		$result = (array)json_decode($connObj->send('getblockhash', array('NotABlockHeight')));
+		$this->assertNotNull($result['error']);
+	}
+
+/**
+	* @depends testCanAuthenticateToBitcoindWithGoodCred
+	*/
+	public function testCanSendWithGoodParams()
+	{	
+		global $configRpcUser, $configRpcPass, $configRpcHost, $configRpcPort;
+		
+		$connObj = new JsonRpcBitcoin($configRpcUser, $configRpcPass, $configRpcHost, $configRpcPort);
+		$result = (array)json_decode($connObj->send('getblockhash', array(20)));
+		$this->assertNotNull($result['result']);
+	}
 }
 ?>

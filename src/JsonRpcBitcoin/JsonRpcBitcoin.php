@@ -1,4 +1,5 @@
 <?php
+namespace JsonRpcBitcoin;
 
 class JsonRpcBitcoin {
 	private $rpcUser = '';

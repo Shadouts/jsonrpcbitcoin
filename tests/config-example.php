@@ -4,4 +4,4 @@
 $configRpcUser = 'bitcoinrpc';
 $configRpcPass = 'XXX';
 $configRpcHost = '127.0.0.1';
-$configRpcPort = '8332';
+$configRpcPort = '18332';

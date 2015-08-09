@@ -8,4 +8,4 @@ before_script:
   - composer update
   - composer install
   
-script: php JsonRpcBitcoin.php
+script: php src/JsonRpcBitcoin/JsonRpcBitcoin.php

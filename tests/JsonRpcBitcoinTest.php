@@ -1,10 +1,11 @@
 <?php
-require_once(__DIR__ . '/../JsonRpcBitcoin.php');
+require_once(__DIR__ . '/../src/JsonRpcBitcoin/JsonRpcBitcoin.php');
 require_once('config.php');
 
 class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 {
 	private $bitcoindConn;
+	private $blockHash;
 
 	public function setUp(){
 		global $configRpcUser, $configRpcPass, $configRpcHost, $configRpcPort;
@@ -111,6 +112,15 @@ class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
+	* @depends testCanAuthenticateToBitcoindWithGoodCred
+	*/
+	public function testCmdGetBlock()
+	{	
+		$result = (array)json_decode($this->bitcoindConn->getblock($this->blockHash));
+		$this->assertNotNull($result['result']);
+	}
+
+/**
 	* Distructive Chain tests
 	*/
 

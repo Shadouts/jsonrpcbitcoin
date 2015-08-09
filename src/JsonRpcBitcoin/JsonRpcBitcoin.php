@@ -62,15 +62,23 @@ class JsonRpcBitcoin {
 		return $this->build_json_error(0, 'Not yet supported');
 	}
 
+	public function getblockhash($blockheight) {
+		return $this->sendRaw('getblockhash', array($blockheight));
+	}
+
+	public function getblock($blockhash) {
+		return $this->sendRaw('getblock', array($blockhash));
+	}
+
 	public function getinfo() {
-		return $this->rawSend('getinfo');
+		return $this->sendRaw('getinfo');
 	}
 	
-	public function rawSend($method, $params = array()) {
+	public function sendRaw($method, $params = array()) {
 		return $this->send($method, $params);
 	}
 
-	public function send($method, $params = array()){
+	private function send($method, $params = array()){
 		/* method and params were passed */
 		if (func_num_args() == 2){
 			$postdata = array(
@@ -118,7 +126,7 @@ class JsonRpcBitcoin {
 		}
 		
 		if (curl_getinfo($ch, CURLINFO_HTTP_CODE) != 200) {
-			return $this->build_json_error(curl_getinfo($ch, CURLINFO_HTTP_CODE), 'Unable to connect to bitcoind');
+			return $this->build_json_error(curl_getinfo($ch, CURLINFO_HTTP_CODE), $result);
 		}
 		
 		$this->result = $result;

@@ -1,16 +1,18 @@
 <?php
 require_once(__DIR__ . '/../src/JsonRpcBitcoin/JsonRpcBitcoin.php');
+use \JsonRpcBitcoin\JsonRpcBitcoin;
+
 require_once('config.php');
+
+$blockhash;
 
 class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 {
-	private $bitcoindConn;
-	private $blockHash;
-
 	public function setUp(){
 		global $configRpcUser, $configRpcPass, $configRpcHost, $configRpcPort;
 		
 		$this->bitcoindConn = new JsonRpcBitcoin($configRpcUser, $configRpcPass, $configRpcHost, $configRpcPort);
+		$this->blockHash = '';
 	}
 	public function tearDown(){ }
 
@@ -19,7 +21,7 @@ class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 		global $configRpcUser, $configRpcPass;
 		
 		$connObj = new JsonRpcBitcoin($configRpcUser, $configRpcPass);
-		$result = (array)json_decode($connObj->send('getinfo'));
+		$result = (array)json_decode($connObj->sendRaw('getinfo'));
 		$this->assertNull($result['error'], null);
 	}
 
@@ -28,7 +30,7 @@ class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 		global $configRpcUser, $configRpcPass, $configRpcHost, $configRpcPort;
 		
 		$connObj = new JsonRpcBitcoin($configRpcUser, $configRpcPass, $configRpcHost, $configRpcPort);
-		$result = (array)json_decode($connObj->send('getinfo'));
+		$result = (array)json_decode($connObj->sendRaw('getinfo'));
 		$this->assertNull($result['error'], null);
 	}
 
@@ -41,7 +43,7 @@ class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 		
 		$connObj = new JsonRpcBitcoin('xxx', 'xxx', $configRpcHost, $configRpcPort);
 		$this->assertJsonStringEqualsJsonString(
-			$connObj->send('getinfo'), 
+			$connObj->sendRaw('getinfo'), 
 			json_encode(array(
 				'result' => null, 
 				'error' => array(
@@ -61,7 +63,7 @@ class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 		global $configRpcUser, $configRpcPass, $configRpcHost, $configRpcPort;
 		
 		$connObj = new JsonRpcBitcoin($configRpcUser, $configRpcPass, $configRpcHost, $configRpcPort);
-		$result = (array)json_decode($connObj->send('getinfo'));
+		$result = (array)json_decode($connObj->sendRaw('getinfo'));
 		$this->assertNotNull($result['result']);
 	}
 
@@ -73,7 +75,7 @@ class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 		global $configRpcUser, $configRpcPass, $configRpcHost, $configRpcPort;
 		
 		$connObj = new JsonRpcBitcoin($configRpcUser, $configRpcPass, $configRpcHost, $configRpcPort);
-		$result = (array)json_decode($connObj->send('getblockhash', array('NotABlockHeight')));
+		$result = (array)json_decode($connObj->sendRaw('getblockhash', array('NotABlockHeight')));
 		$this->assertNotNull($result['error']);
 	}
 
@@ -85,7 +87,7 @@ class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 		global $configRpcUser, $configRpcPass, $configRpcHost, $configRpcPort;
 		
 		$connObj = new JsonRpcBitcoin($configRpcUser, $configRpcPass, $configRpcHost, $configRpcPort);
-		$result = (array)json_decode($connObj->send('getblockhash', array(20)));
+		$result = (array)json_decode($connObj->sendRaw('getblockhash', array(5)));
 		$this->assertNotNull($result['result']);
 	}
 	
@@ -114,9 +116,19 @@ class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 	/**
 	* @depends testCanAuthenticateToBitcoindWithGoodCred
 	*/
-	public function testCmdGetBlock()
+	public function testCmdGetBlockHash()
 	{	
-		$result = (array)json_decode($this->bitcoindConn->getblock($this->blockHash));
+		$result = (array)json_decode($this->bitcoindConn->getblockhash(20));
+		$this->assertNotNull($result['result']);
+		return $result['result']; // the block hash
+	}
+
+	/**
+	* @depends testCmdGetBlockHash
+	*/
+	public function testCmdGetBlock($blockHash)
+	{	
+		$result = (array)json_decode($this->bitcoindConn->getblock($blockHash));
 		$this->assertNotNull($result['result']);
 	}
 

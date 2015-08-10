@@ -2,32 +2,14 @@
 namespace JsonRpcBitcoin;
 
 class JsonRpcBitcoin {
-	private $rpcUser = '';
-	private $rpcPass = '';
-	private $rpcHost = '127.0.0.1';
-	private $rpcPort = 8332;
+	protected $rpcUser;
+	protected $rpcPass;
+	protected $rpcHost;
+	protected $rpcPort;
 	
 	public $result;
 	
-	public function __construct($user, $pass) {
-
-		if (is_string($user)) {
-			$this->rpcUser = $user;
-		} 
-		else {
-			return $this->build_json_error(0, 'Unable to connect to bitcoind: username is not a string');
-		}	
-
-		if (is_string($pass)) {
-			$this->rpcPass = $pass;
-		} 
-		else {
-			return $this->build_json_error(0, 'Unable to connect to bitcoind: password is not a string');
-		}	
-
-	}
-
-	public function __construct1($user, $pass, $host, $port) {
+	public function __construct($user, $pass, $host, $port) {
 
 		if (is_string($user)) {
 			$this->rpcUser = $user;

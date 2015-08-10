@@ -85,9 +85,9 @@ class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 	/**
 	* @depends testCanAuthenticateToBitcoindWithGoodCred
 	*/
-	public function testIsOnTestnet() {
-		$result = (array)json_decode($this->bitcoindConn->getinfo());
-		$this->assertNotFalse($result['result']->testnet);
+	public function testIsOnRegTest() {
+		$result = (array)json_decode($this->bitcoindConn->getblockhash(0));
+		$this->assertNotEquals($result['result'], '000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f');
 
 	}
 

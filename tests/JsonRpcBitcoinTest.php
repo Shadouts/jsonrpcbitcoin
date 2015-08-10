@@ -22,7 +22,7 @@ class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 		
 		$connObj = new JsonRpcBitcoin($configRpcUser, $configRpcPass);
 		$result = (array)json_decode($connObj->sendRaw('getinfo'));
-		$this->assertNull($result['error'], null);
+		$this->assertEquals($result, array());
 	}
 
 	public function testCanConnectToBitcoind()

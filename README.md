@@ -1,7 +1,7 @@
 # jsonrpcbitcoin
 JSON-RPC client library for bitcoin in PHP
 
-[![Build Status](https://travis-ci.org/drazisil/jsonrpcbitcoin.svg?branch=master)](https://travis-ci.org/drazisil/jsonrpcbitcoin)
+1.0.0: [![Build Status](https://travis-ci.org/drazisil/jsonrpcbitcoin.svg?branch=1.0.0)](https://travis-ci.org/drazisil/jsonrpcbitcoin) dev: [![Build Status](https://travis-ci.org/drazisil/jsonrpcbitcoin.svg?branch=master)](https://travis-ci.org/drazisil/jsonrpcbitcoin) 
 
 ##Requirements
 * sudo apt-get install php5-curl

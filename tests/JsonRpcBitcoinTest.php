@@ -159,7 +159,7 @@ class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 	*/
 
 	/**
-	* @depends testIsOnTestnet
+	* @depends testIsOnRegTest
 	*/
 	public function testCmdChainAddNode()
 	{	
@@ -189,7 +189,7 @@ class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 	*/
 
 	/**
-	* @depends testIsOnTestnet
+	* @depends testIsOnRegTest
 	*/
 	public function testCmdWalletAddMultiSigAddress()
 	{	

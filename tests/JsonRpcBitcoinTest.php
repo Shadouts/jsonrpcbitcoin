@@ -123,6 +123,37 @@ class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 		$this->assertNotNull($result['result']);
 	}
 
+	/**
+	* @depends testCmdGetBlockHash
+	*/
+	public function testCmdGetBlockTx($blockHash)
+	{	
+		$result = (array)json_decode($this->bitcoindConn->getblock($blockHash));
+		$this->assertNotNull($result['result']);
+        return $result['result']->tx;
+	}
+
+    /**
+	* @depends testCmdGetBlockTx
+	*/
+	public function testCmdGetRawTransaction($tx)
+	{	
+		$result = (array)json_decode($this->bitcoindConn->getrawtransaction($tx[0], 1));
+		$this->assertNotNull((array)$result['result']->txid);
+        return(string)$result['result']->txid;
+	}
+
+    /**
+	* @depends testCmdGetRawTransaction
+	*/
+	public function testCmdGetTxCoinbase($txId)
+	{	
+		$result = (array)json_decode($this->bitcoindConn->getrawtransaction($txId, 1));
+		$result = (array)$result['result'];
+        $vin = (array)$result['vin'];
+        $this->assertNotNull((string)$vin[0]->coinbase);
+	}
+
 /**
 	* Distructive Chain tests
 	*/

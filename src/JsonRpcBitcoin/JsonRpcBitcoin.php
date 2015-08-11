@@ -56,6 +56,10 @@ class JsonRpcBitcoin {
 		return $this->sendRaw('getinfo');
 	}
 	
+	public function getrawtransaction($blockhash, $verbose=0) {
+		return $this->sendRaw('getrawtransaction', array($blockhash, $verbose));
+	}
+
 	public function sendRaw($method, $params = array()) {
 		return $this->send($method, $params);
 	}

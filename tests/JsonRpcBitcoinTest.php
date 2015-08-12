@@ -139,9 +139,8 @@ class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 	public function testCmdGetRawTransaction($tx)
 	{	
 		$result = (array)json_decode($this->bitcoindConn->getrawtransaction($tx[0], 1));
-		$this->assertEquals((string)$result['txid'], 
-        '4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b');
-        return(string)$result['txid'];
+		$this->assertEquals((string)$result['result']->txid, '4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b');
+        return (string)$result['result']->txid;
 	}
 
     /**
@@ -150,7 +149,7 @@ class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 	public function testCmdGetTxCoinbase($txId)
 	{	
 		$result = (array)json_decode($this->bitcoindConn->getrawtransaction($txId));
-        $vin = (array)$result['vin'];
+        $vin = (array)$result['result']->vin;
         $this->assertEquals((string)$vin[0]->coinbase, 
         '04ffff001d0104455468652054696d65732030332f4a616e2f32303039204368616e63656c6c6f72206f6e206272696e6b206f66207365636f6e64206261696c6f757420666f722062616e6b73');
 	}

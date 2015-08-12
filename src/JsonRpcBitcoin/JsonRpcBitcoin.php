@@ -59,7 +59,7 @@ class JsonRpcBitcoin {
 	public function getrawtransaction($blockhash, $verbose=0) {
         if ($blockhash == '4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b') {
             // This is the genesis transaction. It does not exist and can not be queried
-            return '{"txid" : "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b",
+            return '{"result" : {"txid" : "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b",
                         "version" : 1,
                         "locktime" : 0,
                         "vin" : [
@@ -83,7 +83,7 @@ class JsonRpcBitcoin {
                             }
                         }
                         ]
-            }';
+            }}';
         }
         else {
             return $this->sendRaw('getrawtransaction', array($blockhash, $verbose));

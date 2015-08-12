@@ -115,6 +115,15 @@ class JsonRpcBitcoinTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	* @depends testCanAuthenticateToBitcoindWithGoodCred
+	*/
+	public function testCmdGetBlockCount()
+	{	
+		$result = (array)json_decode($this->bitcoindConn->getblockcount());
+		$this->assertInternalType('integer', $result['result']);
+	}
+
+/**
 	* @depends testCmdGetBlockHash
 	*/
 	public function testCmdGetBlock($blockHash)

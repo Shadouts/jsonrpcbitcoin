@@ -44,12 +44,16 @@ class JsonRpcBitcoin {
 		return $this->build_json_error(0, 'Not yet supported');
 	}
 
-	public function getblockhash($blockheight) {
-		return $this->sendRaw('getblockhash', array($blockheight));
-	}
-
 	public function getblock($blockhash) {
 		return $this->sendRaw('getblock', array($blockhash));
+	}
+
+	public function getblockcount() {
+		return $this->sendRaw('getblockcount', array());
+	}
+
+	public function getblockhash($blockheight) {
+		return $this->sendRaw('getblockhash', array($blockheight));
 	}
 
 	public function getinfo() {

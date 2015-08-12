@@ -8,6 +8,14 @@ JSON-RPC client library for bitcoin in PHP
 
 ##Installation
 * composer require jsonrpcbitcoin/jsonrpcbitcoin
+
+##Supported methods
+* getblockhash
+* getblock
+* getinfo
+* getrawtransaction
+* sendRaw (for methods not built out yet)
+* others WIP
  
 ##Feedback
 Please [open an issue](https://github.com/drazisil/jsonrpcbitcoin/issues/new) if you would like to see something added or locate a bug.
